@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Demo</title>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      margin: 0;
+      background: #f4f6f8;
+      color: #333;
+    }
+
+    header {
+      background: #0077ff;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      font-size: 1.6em;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 30px auto;
+      padding: 20px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 12px 10px;
+      border-bottom: 1px solid #ddd;
+      text-align: left;
+    }
+
+    th {
+      background-color: #0077ff;
+      color: white;
+    }
+
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 50px;
+      font-size: 1.2em;
+      color: #888;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 0.9em;
+      color: #666;
+    }
+
+    .btn-refresh {
+      display: block;
+      margin: 15px auto 25px auto;
+      padding: 10px 25px;
+      background: #0077ff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .btn-refresh:hover {
+      background: #005ad3;
+    }
+  </style>
+</head>
+<body>
+  <header>📊 Dashboard Demo</header>
+
+  <div class="container">
+    <button class="btn-refresh" onclick="fetchData()">🔄 Làm mới dữ liệu</button>
+    <div id="content" class="loading">Đang tải dữ liệu...</div>
+  </div>
+
+  <footer>© <%= new Date().getFullYear() %> Sails.js Demo Dashboard</footer>
+
+  <script>
+    async function fetchData() {
+      const content = document.getElementById('content');
+      content.innerHTML = '<div class="loading">⏳ Đang tải dữ liệu...</div>';
+
+      try {
+        const res = await fetch('https://jsonplaceholder.typicode.com/users');
+        const data = await res.json();
+
+        let html = `
+          <h2>Danh sách người dùng</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Tên</th>
+                <th>Email</th>
+                <th>Thành phố</th>
+                <th>Công ty</th>
+              </tr>
+            </thead>
+            <tbody>
+        `;
+
+        data.forEach(user => {
+          html += `
+            <tr>
+              <td>${user.name}</td>
+              <td>${user.email}</td>
+              <td>${user.address.city}</td>
+              <td>${user.company.name}</td>
+            </tr>
+          `;
+        });
+
+        html += '</tbody></table>';
+        content.innerHTML = html;
+
+      } catch (err) {
+        content.innerHTML = '<div class="loading" style="color:red;">❌ Lỗi tải dữ liệu!</div>';
+        console.error(err);
+      }
+    }
+
+    // Gọi ngay khi load trang
+    fetchData();
+  </script>
+</body>
+</html>
