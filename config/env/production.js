@@ -20,7 +20,11 @@
  */
 
 module.exports = {
-
+  port: 1337, // hoặc 80 nếu bạn muốn truy cập không cần số cổng
+  environment: 'production',
+  custom: {
+    baseUrl: 'http://36.50.54.251',
+  },
 
   /**************************************************************************
   *                                                                         *
@@ -47,6 +51,9 @@ module.exports = {
     *                                                                          *
     ***************************************************************************/
     default: {
+      default: {
+        url: process.env.DATABASE_URL
+      }
       // adapter: 'sails-mysql',
       // url: 'mysql://user:password@host:port/database',
       //--------------------------------------------------------------------------
