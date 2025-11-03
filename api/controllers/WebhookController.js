@@ -18,7 +18,10 @@ module.exports = {
       // // Ghi ra console
       // console.log("📩 Webhook nhận được:", data);
       // Gọi hàm xử lý logic
-      await WebhookService.handleWebhook(source, data);
+      // await WebhookService.handleWebhook(source, data);
+
+      // Đưa vào hàng đợi
+      await QueueService.addJob(source, data);
 
       return res.json({ status: 'ok', received: true });
     } catch (error) {
