@@ -22,5 +22,12 @@ module.exports = {
     if (data.amount > 1000000) {
       console.log('💰 Đơn lớn, gửi báo cáo...');
     }
+  },
+  async handleForwardApi(data) {
+
+    const { url, headers, body, method = 'POST' } = data;
+    console.log('🔧 Xử lý webhook chuyển tiếp...');
+    await axios[method.toLowerCase()](url, body, { headers });
+
   }
 };
