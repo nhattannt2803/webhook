@@ -8,12 +8,12 @@ module.exports = {
       const data = req.body;
 
       // Ghi log thô ra file theo ngày
-      // const logDir = path.join(__dirname, '../../logs');
-      // if (!fs.existsSync(logDir)) fs.mkdirSync(logDir);
-      // const logFile = path.join(logDir, `${new Date().toISOString().split('T')[0]}.log`);
-      // fs.appendFileSync(logFile, `[${new Date().toISOString()}] (${source}) ${JSON.stringify(data)}\n`);
+      const logDir = path.join(__dirname, '../../logs');
+      if (!fs.existsSync(logDir)) fs.mkdirSync(logDir);
+      const logFile = path.join(logDir, `${new Date().toISOString().split('T')[0]}.log`);
+      fs.appendFileSync(logFile, `[${new Date().toISOString()}] (${source}) ${JSON.stringify(data)}\n`);
 
-      // console.log(`📩 Webhook từ [${source}] nhận được:`, data);
+       console.log(`📩 Webhook từ [${source}] nhận được:`, data);
 
       // // Ghi ra console
       // console.log("📩 Webhook nhận được:", data);
