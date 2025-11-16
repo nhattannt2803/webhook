@@ -1,28 +1,32 @@
+require('dotenv').config();
 const { Worker } = require('bullmq');
-const WebhookService = require('../services/WebhookService');
-//const { connection } = require('../../config/redis');
 const Redis = require('ioredis');
+const WebhookService = require('../services/WebhookService');
 
 const connection = new Redis({
-    host: process.env.REDIS_HOST || '127.0.0.1',
-    port: process.env.REDIS_PORT || 6379,
-    maxRetriesPerRequest: null, // ✅ Bắt buộc cho BullMQ
+  host: process.env.REDIS_HOST,
+  port: process.env.REDIS_PORT,
+  maxRetriesPerRequest: null
 });
 
+// Worker — xử lý song song (PM2 sẽ scale nhiều process)
 const worker = new Worker(
-    'webhookQueue',
-    async job => {
-        const { source, data } = job.data;
-        console.log(`👷 Worker xử lý job ${job.id} - source: ${source}`);
-        await WebhookService.handleWebhook(source, data);
-    },
-    { connection }
+  'webhookQueue',
+  async job => {
+    const { source, data } = job.data;
+    console.log(`👷 Worker ${process.pid} xử lý job ${job.id} - ${source}`);
+    await WebhookService.handleWebhook(source, data);
+  },
+  {
+    connection,
+    concurrency: 10 // mỗi worker process chạy 10 job cùng lúc
+  }
 );
 
 worker.on('completed', job => {
-    console.log(`✅ Job hoàn tất: ${job.id}`);
+  console.log(`✅ Worker ${process.pid} hoàn tất job ${job.id}`);
 });
 
 worker.on('failed', (job, err) => {
-    console.error(`❌ Job lỗi: ${job.id}`, err);
+  console.error(`❌ Worker ${process.pid} lỗi job ${job.id}:`, err);
 });
