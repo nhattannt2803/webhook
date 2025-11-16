@@ -7,7 +7,7 @@ module.exports = {
       },
       {
         name: "webhook-worker",
-        script: "./workers/webhook-worker.js",
+        script: "./workers/webhookWorker.js",
         instances: 4,     // chạy 4 tiến trình song song
         exec_mode: "cluster"
       }
