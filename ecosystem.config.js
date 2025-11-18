@@ -1,7 +1,7 @@
 module.exports = {
     apps: [
       {
-        name: "sails-app",
+        name: "webhook",
         script: "app.js",
         env: { NODE_ENV: "production" }
       },
