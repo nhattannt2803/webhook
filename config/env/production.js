@@ -174,6 +174,10 @@ module.exports = {
   * > this section from your `config/env/production.js` file.                *
   *                                                                          *
   ***************************************************************************/
+  myRedis: {
+    host: process.env.REDIS_HOST,
+    port: process.env.REDIS_PORT
+  },
   session: {
 
     /***************************************************************************
