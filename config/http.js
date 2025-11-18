@@ -60,22 +60,13 @@ module.exports.http = {
   // },
   middleware: {
     order: [
-      'bullboard',
-      'cookieParser',
-      'session',
-      'bodyParser',
-      'compress',
-      'poweredBy',
-      'router',
-      'www',
-      'favicon'
+      'bullboard', 'cookieParser', 'session', 'bodyParser',
+      'compress', 'poweredBy', 'router', 'www', 'favicon'
     ],
-
-    // Mount Express router for bull-board
-    bullboard: (function () {
+    bullboard: (() => {
       const router = express.Router();
       router.use('/admin/queues', bullBoard.serverAdapter.getRouter());
       return router;
-    })(),
+    })()
   }
 };
