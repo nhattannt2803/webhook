@@ -35,10 +35,11 @@ var rc;
 try {
   sails = require('sails');
   rc = require('sails/accessible/rc');
-  process.on('uncaughtException', console.error);
-  process.on('unhandledRejection', console.error);
+
 
 } catch (err) {
+  process.on('uncaughtException', console.error);
+  process.on('unhandledRejection', console.error);
   console.error('Encountered an error when attempting to require(\'sails\'):');
   console.error(err.stack);
   console.error('--');
