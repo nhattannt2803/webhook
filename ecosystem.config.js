@@ -1,13 +1,13 @@
 module.exports = {
     apps: [
       {
-        name: "sails-app",
+        name: "webhook",
         script: "app.js",
         env: { NODE_ENV: "production" }
       },
       {
         name: "webhook-worker",
-        script: "./workers/webhook-worker.js",
+        script: "./api/workers/webhookWorker.js",
         instances: 4,     // chạy 4 tiến trình song song
         exec_mode: "cluster"
       }
