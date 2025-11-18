@@ -4,9 +4,10 @@ const Redis = require('ioredis');
 const WebhookService = require('../services/WebhookService');
 
 const connection = new Redis({
-  host: process.env.REDIS_HOST,
-  port: process.env.REDIS_PORT,
-  maxRetriesPerRequest: null
+  host: process.env.REDIS_HOST || "127.0.0.1",
+  port: process.env.REDIS_PORT || 6379,
+  maxRetriesPerRequest: null, // bắt buộc
+  family: 4 // ép dùng IPv4
 });
 
 // Worker — xử lý song song (PM2 sẽ scale nhiều process)
